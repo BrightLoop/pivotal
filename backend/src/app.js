@@ -1,12 +1,12 @@
+// Load environment variables
 import dotenv from "dotenv";
 dotenv.config();
+
 import express from "express";
 import cors from "cors";
 
-// App
+// Initialize the Express application
 const app = express();
-const PORT = process.env.APP_PORT;
-console.log(PORT);
 
 // Middlewares
 app.use(
@@ -17,7 +17,14 @@ app.use(
   })
 );
 
+import indexRoutes from "./routes/indexRoutes";
+import userRoutes from "./routes/userRoutes";
+
+app.use("/", indexRoutes);
+app.use("/user", userRoutes);
+
 // Listen
+const PORT = process.env.APP_PORT;
 app.listen(PORT, () => {
-  console.log("server is running");
+  console.log(`server is running on port ${PORT}`);
 });
