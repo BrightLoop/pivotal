@@ -11,4 +11,6 @@ router.route("/signup")
     .get(userControllers.getUserSignup)
     .post(userControllers.userSignup);
 
+router.get("/logout", userControllers.userLogout);
+
 export default router;

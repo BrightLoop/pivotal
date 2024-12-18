@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 import User from "../models/userModel.js";
 
@@ -6,8 +7,9 @@ import httpStatusCodes from "../utils/httpStatusCodes.js";
 
 const getUserLogin = (req, res) => {
     const locals = { title: "User Login | Pivotal" };
-    return res.status(httpStatusCodes.OK).render("users/login", {
-        locals,
+    return res.status(httpStatusCodes.OK).json({
+        redirectUrl: "/user/login",
+        message: "Please log in to continue.",
     });
 };
 
@@ -34,9 +36,27 @@ const userLogin = async (req, res) => {
             });
         }
 
+        const payload = {
+            userId: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+        };
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 });
+
+        res.cookie("authToken", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            maxAge: 1000 * 60 * 60 * 24,
+            sameSite: "strict",
+        });
+
         return res.status(httpStatusCodes.OK).json({
             success: true,
-            message: "Login successfull",
+            message: "Login successfull.",
+            redirectUrl: "/",
         });
     } catch (error) {
         console.error("An internal error occurred:", error);
@@ -44,14 +64,16 @@ const userLogin = async (req, res) => {
         return res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({
             success: false,
             message: "An error occurred. Please try again later.",
+            redirectUrl: "/user/login",
         });
     }
 };
 
 const getUserSignup = (req, res) => {
     const locals = { title: "User Signup | Pivotal" };
-    return res.status(httpStatusCodes.OK).render("users/signup", {
-        locals,
+    return res.status(httpStatusCodes.OK).json({
+        redirectUrl: "/user/signup",
+        message: "Please signup to continue.",
     });
 };
 
@@ -85,6 +107,7 @@ const userSignup = async (req, res) => {
         return res.status(httpStatusCodes.CREATED).json({
             success: true,
             message: "User registration successfull.",
+            redirectUrl: "/user/login",
         });
     } catch (error) {
         console.error("An internal error occurred:", error);
@@ -92,8 +115,23 @@ const userSignup = async (req, res) => {
         return res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({
             success: false,
             message: "An error occurred. Please try again later.",
+            redirectUrl: "/user/signup",
         });
     }
+};
+
+const userLogout = (req, res) => {
+    res.clearCookie("authToken", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+    });
+
+    return res.status(httpStatusCodes.OK).json({
+        success: true,
+        message: "Logged out successfully.",
+        redirectUrl: "/user/login",
+    });
 };
 
 export default {
@@ -101,4 +139,5 @@ export default {
     userLogin,
     getUserSignup,
     userSignup,
+    userLogout,
 };
