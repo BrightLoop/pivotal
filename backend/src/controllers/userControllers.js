@@ -4,12 +4,17 @@ import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 
 import httpStatusCodes from "../utils/httpStatusCodes.js";
+import sendResponse from "../utils/responseUtils.js";
 
 const getUserLogin = (req, res) => {
     const locals = { title: "User Login | Pivotal" };
-    return res.status(httpStatusCodes.OK).json({
-        redirectUrl: "/user/login",
+
+    sendResponse(res, {
+        statusCode: httpStatusCodes.OK,
+        success: true,
         message: "Please log in to continue.",
+        redirectUrl: "/user/login",
+        data: locals,
     });
 };
 
@@ -22,17 +27,19 @@ const userLogin = async (req, res) => {
             .lean();
 
         if (!user) {
-            return res.status(httpStatusCodes.NOT_FOUND).json({
-                success: false,
+            sendResponse(res, {
+                statusCode: httpStatusCodes.NOT_FOUND,
                 message: "User not found.",
+                redirectUrl: "/user/login",
             });
         }
 
         const isMatchingPassword = await bcrypt.compare(password, user.password);
         if (!isMatchingPassword) {
-            return res.status(httpStatusCodes.BAD_REQUEST).json({
-                success: false,
+            sendResponse(res, {
+                statusCode: httpStatusCodes.BAD_REQUEST,
                 message: "Password do not match.",
+                redirectUrl: "/user/login",
             });
         }
 
@@ -53,7 +60,8 @@ const userLogin = async (req, res) => {
             sameSite: "strict",
         });
 
-        return res.status(httpStatusCodes.OK).json({
+        sendResponse(res, {
+            statusCode: httpStatusCodes.OK,
             success: true,
             message: "Login successfull.",
             redirectUrl: "/",
@@ -61,8 +69,8 @@ const userLogin = async (req, res) => {
     } catch (error) {
         console.error("An internal error occurred:", error);
 
-        return res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({
-            success: false,
+        sendResponse(res, {
+            statusCode: httpStatusCodes.INTERNAL_SERVER_ERROR,
             message: "An error occurred. Please try again later.",
             redirectUrl: "/user/login",
         });
@@ -71,9 +79,13 @@ const userLogin = async (req, res) => {
 
 const getUserSignup = (req, res) => {
     const locals = { title: "User Signup | Pivotal" };
-    return res.status(httpStatusCodes.OK).json({
-        redirectUrl: "/user/signup",
+
+    sendResponse(res, {
+        statusCode: httpStatusCodes.OK,
+        success: true,
         message: "Please signup to continue.",
+        redirectUrl: "/user/signup",
+        data: locals,
     });
 };
 
@@ -83,16 +95,18 @@ const userSignup = async (req, res) => {
     try {
         const isExistingUser = await User.exists({ email });
         if (isExistingUser) {
-            return res.status(httpStatusCodes.BAD_REQUEST).json({
-                success: false,
-                message: "Email already taken.",
+            sendResponse(res, {
+                statusCode: httpStatusCodes.BAD_REQUEST,
+                message: "Email is used by another account.",
+                redirectUrl: "/user/signup",
             });
         }
 
         if (password !== confirmPassword) {
-            return res.status(httpStatusCodes.BAD_REQUEST).json({
-                success: false,
+            sendResponse(res, {
+                statusCode: httpStatusCodes.BAD_REQUEST,
                 message: "Passwords do not match.",
+                redirectUrl: "/user/signup",
             });
         }
 
@@ -104,7 +118,8 @@ const userSignup = async (req, res) => {
             password,
         });
 
-        return res.status(httpStatusCodes.CREATED).json({
+        sendResponse(res, {
+            statusCode: httpStatusCodes.CREATED,
             success: true,
             message: "User registration successfull.",
             redirectUrl: "/user/login",
@@ -112,8 +127,8 @@ const userSignup = async (req, res) => {
     } catch (error) {
         console.error("An internal error occurred:", error);
 
-        return res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({
-            success: false,
+        sendResponse(res, {
+            statusCode: httpStatusCodes.INTERNAL_SERVER_ERROR,
             message: "An error occurred. Please try again later.",
             redirectUrl: "/user/signup",
         });
@@ -127,7 +142,8 @@ const userLogout = (req, res) => {
         sameSite: "strict",
     });
 
-    return res.status(httpStatusCodes.OK).json({
+    sendResponse(res, {
+        statusCode: httpStatusCodes.OK,
         success: true,
         message: "Logged out successfully.",
         redirectUrl: "/user/login",
