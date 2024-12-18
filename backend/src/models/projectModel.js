@@ -1,6 +1,7 @@
-import mongoose from mongoose;
+import mongoose from "mongoose";
+const { Schema } = mongoose;
 
-const projectSchema = new mongoose.Schema(
+const projectSchema = new Schema(
   {
     name: {
       type: String,
@@ -12,13 +13,13 @@ const projectSchema = new mongoose.Schema(
       trim: true,
     },
     owner: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
     teamMembers: [
       {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "User",
       },
     ],
@@ -29,6 +30,6 @@ const projectSchema = new mongoose.Schema(
 );
 
 
-const Project = mongoose.model('Project', projectSchema);
+const Project = mongoose.model("Project", projectSchema);
 
 export default Project;

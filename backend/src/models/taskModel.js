@@ -1,6 +1,7 @@
-import mongoose from mongoose;
+import mongoose from "mongoose";
+const { Schema } = mongoose;
 
-const taskSchema = new mongoose.Schema(
+const taskSchema = new Schema(
   {
     title: {
       type: String,
@@ -26,21 +27,21 @@ const taskSchema = new mongoose.Schema(
       required: true,
     },
     assignee: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
     },
     createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
     project: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Project",
     },
     attachments: [
       {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "Attachment",
       },
     ],
@@ -50,6 +51,6 @@ const taskSchema = new mongoose.Schema(
   }
 );
 
-const Task = mongoose.model('Task', taskSchema);
+const Task = mongoose.model("Task", taskSchema);
 
-export default User;
+export default Task;
