@@ -9,7 +9,8 @@ import sendResponse from "../utils/responseUtils.js";
 const getUserLogin = (req, res) => {
     const locals = { title: "User Login | Pivotal" };
 
-    sendResponse(res, {
+    return sendResponse({
+        res,
         statusCode: httpStatusCodes.OK,
         success: true,
         message: "Please log in to continue.",
@@ -27,7 +28,8 @@ const userLogin = async (req, res) => {
             .lean();
 
         if (!user) {
-            sendResponse(res, {
+            return sendResponse({
+                res,
                 statusCode: httpStatusCodes.NOT_FOUND,
                 message: "User not found.",
                 redirectUrl: "/user/login",
@@ -36,7 +38,8 @@ const userLogin = async (req, res) => {
 
         const isMatchingPassword = await bcrypt.compare(password, user.password);
         if (!isMatchingPassword) {
-            sendResponse(res, {
+            return sendResponse({
+                res,
                 statusCode: httpStatusCodes.BAD_REQUEST,
                 message: "Password do not match.",
                 redirectUrl: "/user/login",
@@ -60,7 +63,8 @@ const userLogin = async (req, res) => {
             sameSite: "strict",
         });
 
-        sendResponse(res, {
+        return sendResponse({
+            res,
             statusCode: httpStatusCodes.OK,
             success: true,
             message: "Login successfull.",
@@ -69,7 +73,8 @@ const userLogin = async (req, res) => {
     } catch (error) {
         console.error("An internal error occurred:", error);
 
-        sendResponse(res, {
+        return sendResponse({
+            res,
             statusCode: httpStatusCodes.INTERNAL_SERVER_ERROR,
             message: "An error occurred. Please try again later.",
             redirectUrl: "/user/login",
@@ -80,7 +85,8 @@ const userLogin = async (req, res) => {
 const getUserSignup = (req, res) => {
     const locals = { title: "User Signup | Pivotal" };
 
-    sendResponse(res, {
+    return sendResponse({
+        res,
         statusCode: httpStatusCodes.OK,
         success: true,
         message: "Please signup to continue.",
@@ -95,7 +101,8 @@ const userSignup = async (req, res) => {
     try {
         const isExistingUser = await User.exists({ email });
         if (isExistingUser) {
-            sendResponse(res, {
+            return sendResponse({
+                res,
                 statusCode: httpStatusCodes.BAD_REQUEST,
                 message: "Email is used by another account.",
                 redirectUrl: "/user/signup",
@@ -103,7 +110,8 @@ const userSignup = async (req, res) => {
         }
 
         if (password !== confirmPassword) {
-            sendResponse(res, {
+            return sendResponse({
+                res,
                 statusCode: httpStatusCodes.BAD_REQUEST,
                 message: "Passwords do not match.",
                 redirectUrl: "/user/signup",
@@ -118,7 +126,8 @@ const userSignup = async (req, res) => {
             password,
         });
 
-        sendResponse(res, {
+        return sendResponse({
+            res,
             statusCode: httpStatusCodes.CREATED,
             success: true,
             message: "User registration successfull.",
@@ -127,7 +136,8 @@ const userSignup = async (req, res) => {
     } catch (error) {
         console.error("An internal error occurred:", error);
 
-        sendResponse(res, {
+        return sendResponse({
+            res,
             statusCode: httpStatusCodes.INTERNAL_SERVER_ERROR,
             message: "An error occurred. Please try again later.",
             redirectUrl: "/user/signup",
@@ -142,7 +152,8 @@ const userLogout = (req, res) => {
         sameSite: "strict",
     });
 
-    sendResponse(res, {
+    return sendResponse({
+        res,
         statusCode: httpStatusCodes.OK,
         success: true,
         message: "Logged out successfully.",
