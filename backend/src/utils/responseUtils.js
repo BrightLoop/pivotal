@@ -1,4 +1,5 @@
-const sendResponse = (res, {
+const sendResponse = ({
+    res,
     statusCode,
     success = false,
     message = null,
