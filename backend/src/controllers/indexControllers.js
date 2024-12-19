@@ -1,6 +1,7 @@
 import httpStatusCodes from "../utils/httpStatusCodes.js";
 import sendResponse from "../utils/responseUtils.js";
 
+// Renders the home page.
 const getHome = (req, res) => {
     const locals = { title: "Home | Pivotal" };
     

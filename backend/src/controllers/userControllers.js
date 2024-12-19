@@ -6,6 +6,7 @@ import User from "../models/userModel.js";
 import httpStatusCodes from "../utils/httpStatusCodes.js";
 import sendResponse from "../utils/responseUtils.js";
 
+// Renders the user login page.
 const getUserLogin = (req, res) => {
     const locals = { title: "User Login | Pivotal" };
 
@@ -19,6 +20,7 @@ const getUserLogin = (req, res) => {
     });
 };
 
+// Handles user login and issues a JWT token.
 const userLogin = async (req, res) => {
     const { email, password } = req.body;
 
@@ -82,6 +84,7 @@ const userLogin = async (req, res) => {
     }
 };
 
+// Renders the user signup page.
 const getUserSignup = (req, res) => {
     const locals = { title: "User Signup | Pivotal" };
 
@@ -95,6 +98,7 @@ const getUserSignup = (req, res) => {
     });
 };
 
+// Handles user signup and creates a new user.
 const userSignup = async (req, res) => {
     const { firstName, lastName, email, phoneNumber, password, confirmPassword } = req.body;
 
@@ -145,6 +149,7 @@ const userSignup = async (req, res) => {
     }
 };
 
+// Logs out the user by clearing the authentication token.
 const userLogout = (req, res) => {
     res.clearCookie("authToken", {
         httpOnly: true,
