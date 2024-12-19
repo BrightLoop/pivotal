@@ -1,6 +1,7 @@
 import httpStatusCodes from "../utils/httpStatusCodes.js";
 import sendResponse from "../utils/responseUtils.js";
 
+// Renders the page to input OTP.
 const getOtpPage = (req, res) => {
     const locals = { title: "OTP Page | Pivotal" };
     
