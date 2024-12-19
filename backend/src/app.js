@@ -65,6 +65,19 @@ app.use((req, res, next) => {
     });
 });
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+
+    const locals = { title: "500 | Internal Server Error" };
+    return sendResponse({
+        res,
+        statusCode: httpStatusCodes.INTERNAL_SERVER_ERROR,
+        success: true,
+        message: "An unexpected error occurred. Please try again later.",
+        data: locals,
+    });
+});
+
 // Listen
 const PORT = process.env.APP_PORT;
 app.listen(PORT, () => {
