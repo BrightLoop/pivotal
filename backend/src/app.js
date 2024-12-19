@@ -41,11 +41,13 @@ app.use((req, res, next) => {
     next();
 });
 
-import indexRoutes from "./routes/indexRoutes";
-import userRoutes from "./routes/userRoutes";
+import indexRoutes from "./routes/indexRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import otpRoutes from "./routes/otpRoutes.js";
 
 app.use("/", indexRoutes);
 app.use("/user", userRoutes);
+app.use("/otp", otpRoutes);
 
 // Listen
 const PORT = process.env.APP_PORT;
