@@ -41,6 +41,7 @@ app.use((req, res, next) => {
     next();
 });
 
+// Routes
 import indexRoutes from "./routes/indexRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import otpRoutes from "./routes/otpRoutes.js";
@@ -52,7 +53,17 @@ app.use("/otp", otpRoutes);
 import httpStatusCodes from "./utils/httpStatusCodes.js";
 import sendResponse from "./utils/responseUtils.js";
 
+app.use((req, res, next) => {
+    const locals = { title: "404 | Page Not Found" };
 
+    return sendResponse({
+        res,
+        statusCode: httpStatusCodes.NOT_FOUND,
+        success: true,
+        message: "Page not found.",
+        data: locals,
+    });
+});
 
 // Listen
 const PORT = process.env.APP_PORT;
