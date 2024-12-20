@@ -43,10 +43,15 @@ app.use((req, res, next) => {
     next();
 });
 
+
+
 // Routes
 import indexRoutes from "./routes/indexRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import otpRoutes from "./routes/otpRoutes.js";
+
+
+
 
 // Register the routes
 app.use("/", indexRoutes);
