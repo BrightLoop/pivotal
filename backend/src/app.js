@@ -6,9 +6,12 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
+import cookie from "cookie-parser";
 
 // Initialize the Express application
 const app = express();
+
+app.use(cookie());
 
 // CORS middleware
 app.use(
@@ -43,15 +46,10 @@ app.use((req, res, next) => {
     next();
 });
 
-
-
 // Routes
 import indexRoutes from "./routes/indexRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import otpRoutes from "./routes/otpRoutes.js";
-
-
-
 
 // Register the routes
 app.use("/", indexRoutes);
