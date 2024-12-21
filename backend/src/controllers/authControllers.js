@@ -25,6 +25,13 @@ const githubCallback = (req, res) => {
     // Generate JWT for authenticated user
     const token = generateToken(req.user);
 
+    res.cookie("authToken", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 1000 * 60 * 60 * 24,
+        sameSite: "strict",
+    });
+
     // Send token to frontend
     return sendResponse({
         res,
