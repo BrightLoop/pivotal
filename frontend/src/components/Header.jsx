@@ -1,7 +1,7 @@
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Sun } from "lucide-react";
 
 function Navbar({ darkMode, toggleDarkMode }) {
-  const navItems = ['Home', 'Features', 'Integration', 'Pricing'];
+  const navItems = ["Home", "Features", "Signup", "Pricing"];
 
   return (
     <div className="flex justify-center w-full fixed top-0 z-50 pt-11">

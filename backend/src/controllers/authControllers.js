@@ -1,13 +1,14 @@
-import jwt from 'jsonwebtoken';
-import httpStatusCodes from 'http-status-codes';
-import sendResponse from '../utils/sendResponse.js';
+import jwt from "jsonwebtoken";
+
+import httpStatusCodes from "../utils/httpStatusCodes.js";
+import sendResponse from "../utils/sendResponse.js";
 
 const generateToken = (user) => {
-    return jwt.sign(
-        { id: user.id, username: user.username },
-        process.env.JWT_SECRET,
-        { expiresIn: '1h' }
-    );
+  return jwt.sign(
+    { id: user.id, username: user.username },
+    process.env.JWT_SECRET,
+    { expiresIn: "1h" },
+  );
 };
 
 // GitHub Callback
@@ -34,14 +35,13 @@ const githubCallback = (req, res) => {
 
     // Send token to frontend
     return sendResponse({
-        res,
-        statusCode: httpStatusCodes.OK,
-        success: true,
-        message: 'Authentication successful.',
-        data: { token, user: req.user },
+      res,
+      statusCode: httpStatusCodes.UNAUTHORIZED,
+      success: false,
+      message: "Authentication failed.",
     });
 };
 
 export default {
-    githubCallback,
+  githubCallback,
 };
