@@ -1,25 +1,45 @@
 import jwt from 'jsonwebtoken';
-import httpStatusCodes from 'http-status-codes';
+
+import httpStatusCodes from "../utils/httpStatusCodes.js";
+import sendResponse from "../utils/responseUtils.js";
 
 const verifyToken = (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1]; // Extract token from header
+    const token = req.cookies.authToken || req.header("Authorization")?.replace("Bearer ", "");
+
     if (!token) {
-        return res.status(httpStatusCodes.UNAUTHORIZED).json({
+        return sendResponse({
+            res,
+            statusCode: httpStatusCodes.UNAUTHORIZED,
             success: false,
-            message: 'Token is missing. Access denied.',
+            message: "Access denied. Please log in.",
+            redirectUrl: "/user/login",
         });
     }
 
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded; // Attach decoded user to request object
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+            if (err.name === "TokenExpiredError") {
+                return sendResponse({
+                    res,
+                    statusCode: httpStatusCodes.UNAUTHORIZED,
+                    success: false,
+                    message: "Session has expired. Please log in again.",
+                    redirectUrl: "/user/login",
+                });
+            }
+
+            return sendResponse({
+                res,
+                statusCode: httpStatusCodes.UNAUTHORIZED,
+                success: false,
+                message: "Invalid token. Please log in again.",
+                redirectUrl: "/user/login",
+            });
+        }
+
+        req.user = decoded;
         next();
-    } catch (err) {
-        return res.status(httpStatusCodes.UNAUTHORIZED).json({
-            success: false,
-            message: 'Invalid or expired token. Access denied.',
-        });
-    }
+    });
 };
 
 export default verifyToken;
