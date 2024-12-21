@@ -35,20 +35,6 @@ const githubCallback = (req, res) => {
     });
 };
 
-// Example Home Controller
-const getHome = (req, res) => {
-    const locals = { title: 'Home | Pivotal' };
-
-    return sendResponse({
-        res,
-        statusCode: httpStatusCodes.OK,
-        success: true,
-        message: 'Welcome to Pivotal home.',
-        data: locals,
-    });
-};
-
 export default {
     githubCallback,
-    getHome,
 };
