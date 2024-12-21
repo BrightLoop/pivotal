@@ -9,7 +9,6 @@ const getHome = (req, res) => {
     res,
     statusCode: httpStatusCodes.OK,
     success: true,
-    message: "Welcome to Pivotal home.",
     redirectUrl: "/",
     data: locals,
   });
