@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from '../config/githubAuth.js';
-import authController from '../controllers/authController.js';
+import authController from '../controllers/authControllers.js';
 
 const router = express.Router();
 
