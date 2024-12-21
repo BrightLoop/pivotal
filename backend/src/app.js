@@ -50,11 +50,13 @@ app.use((req, res, next) => {
 // Routes
 import indexRoutes from "./routes/indexRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./routes/authRoutes";
 import otpRoutes from "./routes/otpRoutes.js";
 
 // Register the routes
 app.use("/", indexRoutes);
 app.use("/user", userRoutes);
+app.use("/auth", authRoutes);
 app.use("/otp", otpRoutes);
 
 // Utility imports
