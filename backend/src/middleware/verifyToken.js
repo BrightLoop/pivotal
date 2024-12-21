@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 import httpStatusCodes from "../utils/httpStatusCodes.js";
 import sendResponse from "../utils/responseUtils.js";

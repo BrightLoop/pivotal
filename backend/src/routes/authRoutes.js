@@ -5,16 +5,13 @@ import authController from "../controllers/authControllers.js";
 const router = express.Router();
 
 // GitHub login
-router.get(
-  "/github",
-  passport.authenticate("github", { scope: ["user:email"] })
-);
+router.get("/github", passport.authenticate("github", { scope: ["user: email"] }));
 
 // GitHub callback
 router.get(
   "/github/callback",
   passport.authenticate("github", { failureRedirect: "/login" }),
-  authController.githubCallback
+  authController.githubCallback,
 );
 
 export default router;

@@ -9,7 +9,7 @@ const getOtpPage = (req, res) => {
         res,
         statusCode: httpStatusCodes.OK,
         success: true,
-        message: "Enter the OTP.",
+        message: "Enter OTP for verification.",
         redirectUrl: "/otp/verify",
         data: locals,
     });
