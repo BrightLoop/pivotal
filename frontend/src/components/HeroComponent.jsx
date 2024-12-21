@@ -11,16 +11,19 @@ function Hero() {
 
       <p className="text-gray-600 dark:text-gray-300 text-lg md:text-xl mb-8">
         Transform task management with Pivotal. Combine powerful to-do lists,
-        productivity tracking, and seamless integrations to stay focused and achieve more.
+        productivity tracking, and seamless integrations to stay focused and
+        achieve more.
       </p>
 
-      <button className="bg-green-950 text-white px-8 py-3 rounded-lg 
+      <button
+        className="bg-green-950 text-white px-8 py-3 rounded-lg 
                        hover:bg-green-900 transition-colors
-                       dark:bg-green-700 dark:hover:bg-green-600">
+                       dark:bg-green-700 dark:hover:bg-green-600"
+      >
         Get Started
       </button>
     </div>
-  )
+  );
 }
 
-export default Hero
+export default Hero;

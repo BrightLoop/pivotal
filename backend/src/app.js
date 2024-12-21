@@ -15,35 +15,36 @@ app.use(cookie());
 
 // CORS middleware
 app.use(
-    cors({
-      origin: "http://localhost:5173/",
-      methods: ["GET", "POST"],
-      credentials: true,
-    })
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
 );
 
 // Middleware to verify JWT token and store the user information in locals
 app.use((req, res, next) => {
-    const token = req.cookies.authToken;
+  const token = req.cookies.authToken;
 
-    if (token) {
-        try {
-            const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+  if (token) {
+    try {
+      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
-            res.locals.isLoggedIn = true;
-            res.locals.username = `${decodedToken.firstName} ${decodedToken.lastName}`.trim();
-        } catch (error) {
-            console.error("Invalid token:", error.message);
+      res.locals.isLoggedIn = true;
+      res.locals.username =
+        `${decodedToken.firstName} ${decodedToken.lastName}`.trim();
+    } catch (error) {
+      console.error("Invalid token:", error.message);
 
-            res.locals.isLoggedIn = false;
-            res.locals.username = null;
-        }
-    } else {
-        res.locals.isLoggedIn = false;
-        res.locals.username = null;
+      res.locals.isLoggedIn = false;
+      res.locals.username = null;
     }
+  } else {
+    res.locals.isLoggedIn = false;
+    res.locals.username = null;
+  }
 
-    next();
+  next();
 });
 
 // Routes
@@ -62,29 +63,29 @@ import sendResponse from "./utils/responseUtils.js";
 
 // 404 Middleware
 app.use((req, res, next) => {
-    const locals = { title: "404 | Page Not Found" };
+  const locals = { title: "404 | Page Not Found" };
 
-    return sendResponse({
-        res,
-        statusCode: httpStatusCodes.NOT_FOUND,
-        success: true,
-        message: "Page not found.",
-        data: locals,
-    });
+  return sendResponse({
+    res,
+    statusCode: httpStatusCodes.NOT_FOUND,
+    success: true,
+    message: "Page not found.",
+    data: locals,
+  });
 });
 
 // 500 Middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack);
+  console.error(err.stack);
 
-    const locals = { title: "500 | Internal Server Error" };
-    return sendResponse({
-        res,
-        statusCode: httpStatusCodes.INTERNAL_SERVER_ERROR,
-        success: true,
-        message: "An unexpected error occurred. Please try again later.",
-        data: locals,
-    });
+  const locals = { title: "500 | Internal Server Error" };
+  return sendResponse({
+    res,
+    statusCode: httpStatusCodes.INTERNAL_SERVER_ERROR,
+    success: true,
+    message: "An unexpected error occurred. Please try again later.",
+    data: locals,
+  });
 });
 
 // Start the server and listen on the specified port

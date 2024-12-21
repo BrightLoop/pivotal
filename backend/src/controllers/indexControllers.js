@@ -3,18 +3,18 @@ import sendResponse from "../utils/responseUtils.js";
 
 // Renders the home page.
 const getHome = (req, res) => {
-    const locals = { title: "Home | Pivotal" };
-    
-    return sendResponse({
-        res,
-        statusCode: httpStatusCodes.OK,
-        success: true,
-        message: "Welcome to Pivotal home.",
-        redirectUrl: "/",
-        data: locals,
-    });
+  const locals = { title: "Pivotal Home" };
+
+  return sendResponse({
+    res,
+    statusCode: httpStatusCodes.OK,
+    success: true,
+    message: "Welcome to Pivotal home.",
+    redirectUrl: "/",
+    data: locals,
+  });
 };
 
 export default {
-    getHome,
+  getHome,
 };
