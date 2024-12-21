@@ -50,7 +50,7 @@ app.use((req, res, next) => {
 // Routes
 import indexRoutes from "./routes/indexRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
-import authRoutes from "./routes/authRoutes";
+import authRoutes from "./routes/authRoutes.js";
 import otpRoutes from "./routes/otpRoutes.js";
 
 // Register the routes
