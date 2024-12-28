@@ -4,7 +4,7 @@ function Navbar({ darkMode, toggleDarkMode }) {
   const navItems = ["Home", "Features", "Signup", "Pricing"];
 
   return (
-    <div className="flex justify-center w-full fixed top-0 z-50 pt-11">
+    <div className="flex justify-center w-full fixed top-0 z-50 p-10">
       <nav className="w-2/3 bg-green-950 text-white text-xl rounded-2xl p-4 md:p-6 ">
         <div className="flex items-center justify-between px-4 md:px-8">
           {/* Navigation Items */}
